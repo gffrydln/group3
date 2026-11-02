@@ -1,13 +1,32 @@
 import { router } from "expo-router";
+import { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
+
+const members = [
+  { name: "Jonnedel Cuizon", route: "/jonnedel", role: "Leader" },
+  { name: "Ian Pitogo", route: "/ian", role: "Member" },
+  { name: "Novie Mae Sagaysay", route: "/novie", role: "Member" },
+  { name: "Geoffrey Delan", route: "/geoffrey", role: "Member" },
+  { name: "Marclarens Cababan", route: "/marclarens", role: "Member" },
+] as const;
+
 export default function TeamScreen() {
+ 
+  const [search, setSearch] = useState("");
+
+  
+  const filtered = members.filter((m) =>
+    m.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -20,54 +39,35 @@ export default function TeamScreen() {
           Select a member
         </Text>
 
-          <View>
-            <Text style={styles.section}>Leader</Text>
-          </View>
+        
+        <TextInput
+          style={styles.searchBox}
+          placeholder="Search member..."
+          value={search}
+          onChangeText={setSearch}
+        />
 
-            <TouchableOpacity  onPress={() => router.push("/jonnedel")}>
-              <View style={styles.memberCard}>
-              <Text style={styles.memberName}>
-                Jonnedel Cuizon
-              </Text>
+       
+        {filtered.map((m) => (
+          <TouchableOpacity
+            key={m.route}
+            onPress={() =>
+              router.push({
+                pathname: m.route,
+                params: { name: m.name, role: m.role },
+              })
+            }
+          >
+            <View style={styles.memberCard}>
+              <Text style={styles.memberName}>{m.name}</Text>
+              <Text>{m.role}</Text>
             </View>
-            </TouchableOpacity> 
+          </TouchableOpacity>
+        ))}
 
-          <View>
-            <Text style={styles.section}>Member</Text>
-          </View>
-
-            <TouchableOpacity onPress={() => router.push("/ian")}>
-              <View style={styles.memberCard}>
-              <Text style={styles.memberName}>
-                Ian Pitogo
-              </Text>
-            </View>
-            </TouchableOpacity> 
-
-            <TouchableOpacity onPress={() => router.push("/novie")}>
-              <View style={styles.memberCard}>
-              <Text style={styles.memberName}>
-                Novie Mae Sagaysay
-              </Text>
-            </View>
-            </TouchableOpacity> 
-
-            <TouchableOpacity onPress={() => router.push("/geoffrey")}>
-              <View style={styles.memberCard}>
-              <Text style={styles.memberName}>
-                Geoffrey Delan
-              </Text>
-            </View>
-            </TouchableOpacity> 
-
-
-            <TouchableOpacity onPress={() => router.push("/marclarens")}>
-              <View style={styles.memberCard}>
-              <Text style={styles.memberName}>
-                Marclarens Cababan
-              </Text>
-            </View>
-            </TouchableOpacity> 
+        {filtered.length === 0 && (
+          <Text style={styles.instruction}>No member found</Text>
+        )}
 
         <TouchableOpacity
           style={styles.backButton}
@@ -114,12 +114,20 @@ const styles = StyleSheet.create({
     color: "#777",
   },
 
+  // CHANGED: new style
+  searchBox: {
+    backgroundColor: "white",
+    padding: 12,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+
   section: {
     fontSize: 20,
     fontWeight: "bold",
     textTransform: "uppercase",
     letterSpacing: 0.6,
-    marginBottom: 15
+    marginBottom: 15,
   },
 
   memberCard: {

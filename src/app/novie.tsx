@@ -1,187 +1,126 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function Profile() {
+  const params = useLocalSearchParams<{ name?: string; role?: string }>();
+
+  const [name, setName] = useState("Novie Mae Sagaysay");
+  const [role, setRole] = useState("Member");
+
+  useEffect(() => {
+    if (params.name) setName(params.name);
+    if (params.role) setRole(params.role);
+  }, [params.name, params.role]);
+
   return (
     <ScrollView style={styles.container}>
 
-      {/* Cover */}
-      <View style={styles.cover}>
+      {/* Header */}
+      <View style={styles.header}>
         <TouchableOpacity
-          style={styles.backButton}
           onPress={() => router.back()}
+          style={styles.backButton}
         >
-          <Text style={styles.backText}>←</Text>
+          <Text style={styles.backText}>‹</Text>
         </TouchableOpacity>
 
-        <Text style={styles.coverTitle}>TEAM 3</Text>
+        <Text style={styles.headerTitle}>PROFILE</Text>
       </View>
 
-      {/* Profile Section */}
-      <View style={styles.profileSection}>
+      {/* Profile */}
+      <View style={styles.profile}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: "https://i.pravatar.cc/300?img=47" }}
+            style={styles.image}
+          />
+        </View>
 
-        <Image
-          source={{
-            uri: "https://i.pravatar.cc/300?img=12",
-          }}
-          style={styles.profileImage}
-        />
+        <Text style={styles.name}>{name}</Text>
 
-        <Text style={styles.name}>Novie Mae Sagaysay</Text>
+        <View style={styles.roleBox}>
+          <Text style={styles.role}>TEAM 3 • {role.toUpperCase()}</Text>
+        </View>
 
-        <Text style={styles.role}>
-          Team Leader • Keyboard Warriors
+        <Text style={styles.description}>
+          Information Technology Student
         </Text>
-
-        <Text style={styles.location}>
-          📍 Philippines
-        </Text>
-
       </View>
 
-      {/* Stats */}
-      <View style={styles.statsCard}>
+      {/* Information */}
+      <Text style={styles.title}>Personal Information</Text>
 
-        <View style={styles.stat}>
-          <Text style={styles.statNumber}>01</Text>
-          <Text style={styles.statLabel}>Leader</Text>
+      <View style={styles.card}>
+        <View style={styles.row}>
+          <View style={styles.textContainer}>
+            <Text style={styles.label}>Full Name</Text>
+            <Text style={styles.value}>{name}</Text>
+          </View>
         </View>
 
-        <View style={styles.divider} />
-
-        <View style={styles.stat}>
-          <Text style={styles.statNumber}>05</Text>
-          <Text style={styles.statLabel}>Members</Text>
+        <View style={styles.row}>
+          <View style={styles.textContainer}>
+            <Text style={styles.label}>Age</Text>
+            <Text style={styles.value}>Add age here</Text>
+          </View>
         </View>
 
-        <View style={styles.divider} />
-
-        <View style={styles.stat}>
-          <Text style={styles.statNumber}>03</Text>
-          <Text style={styles.statLabel}>Team</Text>
+        <View style={styles.row}>
+          <View style={styles.textContainer}>
+            <Text style={styles.label}>Course</Text>
+            <Text style={styles.value}>BS Information Technology</Text>
+          </View>
         </View>
 
-      </View>
-
-      {/* Personal Information */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
-          Personal Information
-        </Text>
-
-        <View style={styles.card}>
-
-          <View style={styles.item}>
-            <View style={styles.circle}>
-              <Text>🎂</Text>
-            </View>
-
-            <View>
-              <Text style={styles.itemTitle}>Birthday</Text>
-              <Text style={styles.itemText}>
-                January 1, 2008
-              </Text>
-            </View>
+        <View style={styles.row}>
+          <View style={styles.textContainer}>
+            <Text style={styles.label}>Email</Text>
+            <Text style={styles.value}>Add email here</Text>
           </View>
-
-          <View style={styles.item}>
-            <View style={styles.circle}>
-              <Text>🎓</Text>
-            </View>
-
-            <View>
-              <Text style={styles.itemTitle}>Course</Text>
-              <Text style={styles.itemText}>
-                BS Information Technology
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.item}>
-            <View style={styles.circle}>
-              <Text>📧</Text>
-            </View>
-
-            <View>
-              <Text style={styles.itemTitle}>Email</Text>
-              <Text style={styles.itemText}>
-                novz@example.com
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.item}>
-            <View style={styles.circle}>
-              <Text>🏠</Text>
-            </View>
-
-            <View>
-              <Text style={styles.itemTitle}>Address</Text>
-              <Text style={styles.itemText}>
-                Cebu, Philippines
-              </Text>
-            </View>
-          </View>
-
         </View>
       </View>
 
       {/* About */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
-          About Me
-        </Text>
+      <Text style={styles.title}>About Me</Text>
 
-        <View style={styles.aboutCard}>
-          <Text style={styles.aboutText}>
-            Hi! I'm Novie, the leader of Team 3 —
-            Keyboard Warriors. I enjoy coding, gaming,
-            and learning about technology.
-          </Text>
-        </View>
+      <View style={styles.aboutCard}>
+        <Text style={styles.about}>
+          Hello! I'm {name}, a member of Team 3 Keyboard Warriors. Add
+          your own short introduction here.
+        </Text>
       </View>
 
       {/* Hobbies */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
-          My Hobbies
-        </Text>
+      <Text style={styles.title}>Hobbies</Text>
 
-        <View style={styles.hobbies}>
+      <View style={styles.hobbies}>
+        <View style={styles.hobbyCard}>
+          <Text style={styles.hobbyText}>Add hobby 1</Text>
+        </View>
 
-          <View style={styles.hobby}>
-            <Text style={styles.hobbyEmoji}>🎮</Text>
-            <Text style={styles.hobbyText}>Gaming</Text>
-          </View>
+        <View style={styles.hobbyCard}>
+          <Text style={styles.hobbyText}>Add hobby 2</Text>
+        </View>
 
-          <View style={styles.hobby}>
-            <Text style={styles.hobbyEmoji}>💻</Text>
-            <Text style={styles.hobbyText}>Coding</Text>
-          </View>
-
-          <View style={styles.hobby}>
-            <Text style={styles.hobbyEmoji}>🎧</Text>
-            <Text style={styles.hobbyText}>Music</Text>
-          </View>
-
+        <View style={styles.hobbyCard}>
+          <Text style={styles.hobbyText}>Add hobby 3</Text>
         </View>
       </View>
 
       {/* Back */}
       <TouchableOpacity
-        style={styles.button}
+        style={styles.bottomButton}
         onPress={() => router.back()}
       >
-        <Text style={styles.buttonText}>
-          BACK TO TEAM
-        </Text>
+        <Text style={styles.bottomButtonText}>BACK TO TEAM</Text>
       </TouchableOpacity>
 
     </ScrollView>
@@ -191,30 +130,30 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f5f7",
+    backgroundColor: "#F4F7FB",
   },
 
-  cover: {
-    height: 190,
-    backgroundColor: "#111827",
+  header: {
+    height: 65,
+    backgroundColor: "#2563EB",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
 
-  coverTitle: {
+  headerTitle: {
     color: "white",
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
-    letterSpacing: 3,
+    letterSpacing: 1,
   },
 
   backButton: {
     position: "absolute",
-    top: 45,
-    left: 20,
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    left: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
@@ -222,159 +161,131 @@ const styles = StyleSheet.create({
 
   backText: {
     color: "white",
-    fontSize: 24,
+    fontSize: 32,
+    marginTop: -3,
   },
 
-  profileSection: {
-    backgroundColor: "white",
+  profile: {
+    backgroundColor: "#2563EB",
     alignItems: "center",
-    paddingBottom: 25,
+    paddingBottom: 35,
   },
 
-  profileImage: {
+  imageContainer: {
+    padding: 5,
+    backgroundColor: "white",
+    borderRadius: 70,
+    marginTop: 20,
+  },
+
+  image: {
     width: 125,
     height: 125,
     borderRadius: 63,
-    borderWidth: 6,
-    borderColor: "white",
-    marginTop: -63,
   },
 
   name: {
-    fontSize: 28,
+    color: "white",
+    fontSize: 27,
     fontWeight: "bold",
-    color: "#111827",
-    marginTop: 12,
+    marginTop: 15,
+  },
+
+  roleBox: {
+    backgroundColor: "#1D4ED8",
+    paddingHorizontal: 15,
+    paddingVertical: 7,
+    borderRadius: 20,
+    marginTop: 8,
   },
 
   role: {
-    fontSize: 15,
-    color: "#6b7280",
-    marginTop: 5,
-  },
-
-  location: {
-    fontSize: 14,
-    color: "#6b7280",
-    marginTop: 7,
-  },
-
-  statsCard: {
-    backgroundColor: "white",
-    marginHorizontal: 20,
-    marginTop: 20,
-    borderRadius: 16,
-    paddingVertical: 20,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-
-  stat: {
-    alignItems: "center",
-    flex: 1,
-  },
-
-  statNumber: {
-    fontSize: 22,
+    color: "white",
+    fontSize: 12,
     fontWeight: "bold",
-    color: "#111827",
   },
 
-  statLabel: {
-    color: "#6b7280",
-    marginTop: 4,
+  description: {
+    color: "#DBEAFE",
+    fontSize: 14,
+    marginTop: 8,
   },
 
-  divider: {
-    width: 1,
-    height: 35,
-    backgroundColor: "#ddd",
-  },
-
-  section: {
-    marginTop: 25,
-    marginHorizontal: 20,
-  },
-
-  sectionTitle: {
+  title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#111827",
+    color: "#1E293B",
+    marginTop: 25,
     marginBottom: 12,
+    marginHorizontal: 20,
   },
 
   card: {
     backgroundColor: "white",
-    borderRadius: 16,
-    padding: 10,
+    marginHorizontal: 20,
+    borderRadius: 18,
+    paddingVertical: 8,
+    elevation: 3,
   },
 
-  item: {
+  row: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 13,
+    padding: 15,
   },
 
-  circle: {
-    width: 45,
-    height: 45,
-    borderRadius: 23,
-    backgroundColor: "#f0f1f3",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 14,
+  textContainer: {
+    flex: 1,
   },
 
-  itemTitle: {
-    color: "#9ca3af",
+  label: {
+    color: "#94A3B8",
     fontSize: 12,
   },
 
-  itemText: {
-    color: "#111827",
-    fontSize: 15,
+  value: {
+    color: "#1E293B",
+    fontSize: 16,
     fontWeight: "600",
-    marginTop: 2,
+    marginTop: 3,
   },
 
   aboutCard: {
     backgroundColor: "white",
-    borderRadius: 16,
-    padding: 18,
+    marginHorizontal: 20,
+    borderRadius: 18,
+    padding: 20,
+    elevation: 3,
   },
 
-  aboutText: {
-    color: "#4b5563",
+  about: {
+    color: "#475569",
     fontSize: 15,
-    lineHeight: 23,
+    lineHeight: 24,
   },
 
   hobbies: {
     flexDirection: "row",
-    gap: 10,
+    justifyContent: "space-between",
+    marginHorizontal: 20,
   },
 
-  hobby: {
+  hobbyCard: {
     backgroundColor: "white",
-    borderRadius: 15,
-    padding: 15,
+    width: "31%",
+    borderRadius: 16,
+    paddingVertical: 18,
     alignItems: "center",
-    width: 100,
-  },
-
-  hobbyEmoji: {
-    fontSize: 28,
+    elevation: 2,
   },
 
   hobbyText: {
-    marginTop: 7,
+    color: "#334155",
     fontWeight: "600",
-    color: "#374151",
   },
 
-  button: {
-    backgroundColor: "#111827",
+  bottomButton: {
+    backgroundColor: "#2563EB",
     marginHorizontal: 20,
     marginTop: 30,
     marginBottom: 40,
@@ -383,9 +294,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  buttonText: {
+  bottomButtonText: {
     color: "white",
-    fontWeight: "bold",
     fontSize: 15,
+    fontWeight: "bold",
   },
 });

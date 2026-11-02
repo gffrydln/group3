@@ -1,14 +1,25 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function Profile() {
+  const params = useLocalSearchParams<{ name?: string; role?: string }>();
+
+  const [name, setName] = useState("Geoffrey Delan");
+  const [role, setRole] = useState("Member");
+
+  useEffect(() => {
+    if (params.name) setName(params.name);
+    if (params.role) setRole(params.role);
+  }, [params.name, params.role]);
+
   return (
     <ScrollView style={styles.container}>
       
@@ -35,10 +46,10 @@ export default function Profile() {
           />
         </View>
 
-        <Text style={styles.name}>Geoffrey Delan</Text>
+        <Text style={styles.name}>{name}</Text>
 
         <View style={styles.roleBox}>
-          <Text style={styles.role}>TEAM 3 • MEMBER</Text>
+          <Text style={styles.role}>TEAM 3 • {role.toUpperCase()}</Text>
         </View>
 
         <Text style={styles.description}>
@@ -58,7 +69,7 @@ export default function Profile() {
 
           <View style={styles.textContainer}>
             <Text style={styles.label}>Full Name</Text>
-            <Text style={styles.value}>Geoffrey Delan</Text>
+            <Text style={styles.value}>{name}</Text>
           </View>
         </View>
 

@@ -1,4 +1,5 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -9,6 +10,16 @@ import {
 } from "react-native";
 
 export default function ProfileScreen() {
+  const params = useLocalSearchParams<{ name?: string; role?: string }>();
+
+  const [name, setName] = useState("Ian Pitogo");
+  const [role, setRole] = useState("Member");
+
+  useEffect(() => {
+    if (params.name) setName(params.name);
+    if (params.role) setRole(params.role);
+  }, [params.name, params.role]);
+
   return (
     <ScrollView style={styles.container}>
       
@@ -36,8 +47,8 @@ export default function ProfileScreen() {
           style={styles.profileImage}
         />
 
-        <Text style={styles.name}>Ian Pitogo</Text>
-        <Text style={styles.role}>Team Member</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.role}>{role}</Text>
 
         <View style={styles.badge}>
           <Text style={styles.badgeText}>TEAM 3</Text>
@@ -54,7 +65,7 @@ export default function ProfileScreen() {
           <Text style={styles.icon}>👤</Text>
           <View>
             <Text style={styles.label}>Full Name</Text>
-            <Text style={styles.value}>Ian Pitogo</Text>
+            <Text style={styles.value}>{name}</Text>
           </View>
         </View>
 
