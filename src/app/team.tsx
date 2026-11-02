@@ -9,7 +9,6 @@ import {
   View,
 } from "react-native";
 
-
 const members = [
   { name: "Jonnedel Cuizon", route: "/jonnedel", role: "Leader" },
   { name: "Ian Pitogo", route: "/ian", role: "Member" },
@@ -19,13 +18,15 @@ const members = [
 ] as const;
 
 export default function TeamScreen() {
- 
   const [search, setSearch] = useState("");
 
-  
-  const filtered = members.filter((m) =>
-    m.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // No names are shown until something is typed
+  const keyword = search.trim().toLowerCase();
+
+  const filtered =
+    keyword === ""
+      ? []
+      : members.filter((m) => m.name.toLowerCase().includes(keyword));
 
   return (
     <ScrollView style={styles.container}>
@@ -36,10 +37,9 @@ export default function TeamScreen() {
         <Text style={styles.subtitle}>TEAM 3</Text>
 
         <Text style={styles.instruction}>
-          Select a member
+          Type your name to find your profile
         </Text>
 
-        
         <TextInput
           style={styles.searchBox}
           placeholder="Search member..."
@@ -47,7 +47,6 @@ export default function TeamScreen() {
           onChangeText={setSearch}
         />
 
-       
         {filtered.map((m) => (
           <TouchableOpacity
             key={m.route}
@@ -65,7 +64,7 @@ export default function TeamScreen() {
           </TouchableOpacity>
         ))}
 
-        {filtered.length === 0 && (
+        {keyword !== "" && filtered.length === 0 && (
           <Text style={styles.instruction}>No member found</Text>
         )}
 
@@ -114,20 +113,11 @@ const styles = StyleSheet.create({
     color: "#777",
   },
 
-  // CHANGED: new style
   searchBox: {
     backgroundColor: "white",
     padding: 12,
     borderRadius: 10,
     marginBottom: 20,
-  },
-
-  section: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: 0.6,
-    marginBottom: 15,
   },
 
   memberCard: {
