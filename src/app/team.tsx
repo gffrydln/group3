@@ -20,13 +20,32 @@ const members = [
 export default function TeamScreen() {
   const [search, setSearch] = useState("");
 
-  // No names are shown until something is typed
   const keyword = search.trim().toLowerCase();
 
-  const filtered =
-    keyword === ""
-      ? []
-      : members.filter((m) => m.name.toLowerCase().includes(keyword));
+  
+  const filtered = members.filter((m) =>
+    m.name.toLowerCase().includes(keyword)
+  );
+
+  // Separate the leader from the members
+  const leaders = filtered.filter((m) => m.role === "Leader");
+  const others = filtered.filter((m) => m.role === "Member");
+
+  const renderMember = (m: (typeof members)[number]) => (
+    <TouchableOpacity
+      key={m.route}
+      onPress={() =>
+        router.push({
+          pathname: m.route,
+          params: { name: m.name, role: m.role },
+        })
+      }
+    >
+      <View style={styles.memberCard}>
+        <Text style={styles.memberName}>{m.name}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <ScrollView style={styles.container}>
@@ -37,7 +56,7 @@ export default function TeamScreen() {
         <Text style={styles.subtitle}>TEAM 3</Text>
 
         <Text style={styles.instruction}>
-          Type your name to find your profile
+          Select a member or search by name
         </Text>
 
         <TextInput
@@ -47,24 +66,21 @@ export default function TeamScreen() {
           onChangeText={setSearch}
         />
 
-        {filtered.map((m) => (
-          <TouchableOpacity
-            key={m.route}
-            onPress={() =>
-              router.push({
-                pathname: m.route,
-                params: { name: m.name, role: m.role },
-              })
-            }
-          >
-            <View style={styles.memberCard}>
-              <Text style={styles.memberName}>{m.name}</Text>
-              <Text>{m.role}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+        {leaders.length > 0 && (
+          <>
+            <Text style={styles.section}>Leader</Text>
+            {leaders.map(renderMember)}
+          </>
+        )}
 
-        {keyword !== "" && filtered.length === 0 && (
+        {others.length > 0 && (
+          <>
+            <Text style={styles.section}>Members</Text>
+            {others.map(renderMember)}
+          </>
+        )}
+
+        {filtered.length === 0 && (
           <Text style={styles.instruction}>No member found</Text>
         )}
 
@@ -118,6 +134,14 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 10,
     marginBottom: 20,
+  },
+
+  section: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
+    marginBottom: 15,
   },
 
   memberCard: {
