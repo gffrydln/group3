@@ -56,7 +56,7 @@ export default function TeamScreen() {
         <Text style={styles.subtitle}>TEAM 3</Text>
 
         <Text style={styles.instruction}>
-          Select a member or search by name
+          Search a name
         </Text>
 
         <TextInput
