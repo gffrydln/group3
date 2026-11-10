@@ -12,7 +12,7 @@ import {
 export default function ProfileScreen() {
   const params = useLocalSearchParams<{ name?: string; role?: string }>();
 
-  const [name, setName] = useState("Ian Pitogo");
+  const [name, setName] = useState("Ian C. Pitogo");
   const [role, setRole] = useState("Member");
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function ProfileScreen() {
   return (
     <ScrollView style={styles.container}>
       
-      {/* Top Header */}
+      
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -37,7 +37,7 @@ export default function ProfileScreen() {
         <View style={{ width: 40 }} />
       </View>
 
-      {/* Profile Card */}
+      
       <View style={styles.profileCard}>
 
         <Image
@@ -56,7 +56,7 @@ export default function ProfileScreen() {
 
       </View>
 
-      {/* About */}
+      
       <Text style={styles.sectionTitle}>Personal Information</Text>
 
       <View style={styles.infoCard}>
@@ -102,7 +102,7 @@ export default function ProfileScreen() {
 
       </View>
 
-      {/* About Me */}
+      
       <Text style={styles.sectionTitle}>About Me</Text>
 
       <View style={styles.aboutCard}>
@@ -113,7 +113,7 @@ export default function ProfileScreen() {
         </Text>
       </View>
 
-      {/* Hobbies */}
+      
       <Text style={styles.sectionTitle}>Hobbies & Interests</Text>
 
       <View style={styles.hobbiesContainer}>
@@ -134,7 +134,7 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      {/* Back Button */}
+      
       <TouchableOpacity
         style={styles.button}
         onPress={() => router.back()}
