@@ -118,7 +118,7 @@ export default function Profile() {
           <View style={styles.textContainer}>
             <Text style={styles.label}>Location</Text>
             <Text style={styles.value}>
-              Luyang, Carmen, Cebu, Philippines
+              Luyang, Carmen, Cebu, Philippines 6005
             </Text>
           </View>
         </View>
