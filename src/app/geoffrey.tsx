@@ -69,7 +69,7 @@ export default function Profile() {
 
           <View style={styles.textContainer}>
             <Text style={styles.label}>Full Name</Text>
-            <Text style={styles.value}>{name}</Text>
+            <Text style={styles.value}>Geoffrey Delan</Text>
           </View>
         </View>
 
@@ -105,7 +105,7 @@ export default function Profile() {
           <View style={styles.textContainer}>
             <Text style={styles.label}>Email</Text>
             <Text style={styles.value}>
-              geoffrey@gmail.com
+              gffrydln@gmail.com
             </Text>
           </View>
         </View>
